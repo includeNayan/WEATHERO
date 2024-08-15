@@ -1,66 +1,53 @@
-const inputBox = document.querySelector('.input-box');
-const searchBtn = document.getElementById('searchBtn');
-const weather_img = document.querySelector('.weather-img');
-const temperature = document.querySelector('.temperature');
-const description = document.querySelector('.description');
-const humidity = document.getElementById('humidity');
-const wind_speed = document.getElementById('wind-speed');
-const location_not_found = document.querySelector('.location-not-found');
-const weather_body = document.querySelector('.weather-body');
+let country = document.querySelector("#country");
+let city = document.querySelector("#city");
+let check = document.querySelector("#check");
+let tempIcon = document.querySelector("#tempIcon");
+let weatherCountry = document.querySelector("#weatherCountry");
+let temperature = document.querySelector("#temperature");
+let weatherDescription = document.querySelector("#weatherDescription");
+let feelsLike = document.querySelector("#feelsLike");
+let humidity = document.querySelector("#humidity");
+let longitude = document.querySelector("#longitude");
+let latitude = document.querySelector("#latitude");
 
-async function checkWeather(city) {
-    const api_key = "4cd0eee81294c867b4bc4cfc64e998c5";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
+check.addEventListener("click", () => {
+    let key = `bd4ea33ecf905116d12af172e008dbae`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value},${country.value}&lang=en&units=metric&appid=${key}`;
 
-    try {
-        const response = await fetch(url);
-        const weather_data = await response.json();
+    fetch(url).then(response => {
+        return response.json();
+    }).then(data => {
+        console.log(data);
+        weatherCountry.innerText = `${data.name} / ${data.sys.country}`;
+        temperature.innerHTML = `${data.main.temp}°<b>C</b>`;
+        document.body.style.backgroundImage ="url('https://source.unsplash.com/1600x900/?" + "')";
 
-        if (weather_data.cod === '404') {
-            location_not_found.style.display = "flex";
-            weather_body.style.display = "none";
-            console.log("Location not found");
-            return;
-        }
+        data.weather.forEach(items => {
+            weatherDescription.innerText = items.description;
+            if (items.id < 250) {
+                tempIcon.src = `tempicons/storm.svg`;
+            } else if (items.id < 350) {
+                tempIcon.src = `tempicons/drizzle.svg`;
+            } else if (items.id < 550) {
+                tempIcon.src = `tempicons/snow.svg`;
+            } else if (items.id < 650) {
+                tempIcon.src = `tempicons/rain.svg`;
+            } else if (items.id < 800) {
+                tempIcon.src = `tempicons/atmosphere.svg`;
+            } else if (items.id === 800) {
+                tempIcon.src = `tempicons/sun.svg`;
+            } else if (items.id > 800) {
+                tempIcon.src = `tempicons/clouds.svg`;
+            }
+        })
 
-        location_not_found.style.display = "none";
-        weather_body.style.display = "flex";
-        temperature.innerHTML = `${Math.round(weather_data.main.temp - 273.15)}<sup>°C</sup>`;
-        description.innerHTML = `${weather_data.weather[0].description}`;
-
-        humidity.innerHTML = `${weather_data.main.humidity}%`;
-        wind_speed.innerHTML = `${weather_data.wind.speed} Km/H`;
-
-        switch (weather_data.weather[0].main) {
-            case 'Clouds':
-                weather_img.src = "/assets/cloud.png";
-                break;
-            case 'Clear':
-                weather_img.src = "/assets/clear.png";
-                break;
-            case 'Rain':
-                weather_img.src = "/assets/rain.png";
-                break;
-            case 'Mist':
-                weather_img.src = "/assets/mist.png";
-                break;
-            case 'Snow':
-                weather_img.src = "/assets/snow.png";
-                break;
-            default:
-                weather_img.src = "/assets/default.png"; // Add a default image if needed
-                break;
-        }
-
-        console.log(weather_data);
-    } catch (error) {
-        console.error("Failed to fetch weather data", error);
-    }
-}
-
-searchBtn.addEventListener('click', () => {
-    const city = inputBox.value;
-    if (city) {
-        checkWeather(city);
-    }
-});
+        feelsLike.innerText = `Feels Like ${data.main.feels_like}°C`;
+        
+        humidity.innerText = `Humidity ${data.main.humidity}`;
+        latitude.innerText = `Latitude ${data.coord.lat}`;
+        longitude.innerText = `Latitude ${data.coord.lon}`;
+        
+    })
+    country.value = "";
+    city.value = "";
+})

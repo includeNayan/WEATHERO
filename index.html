@@ -2,56 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App With JavaScript</title>
+    <title>Weather website</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/595a890311.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="search-box">
-                <input type="text" placeholder="Enter your location" class="input-box">
-                <button id="searchBtn" class="search-btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
+    <div id="container">
+        <div id="location">
+            <input type="text" id="country" placeholder="Country">
+            <input type="text" id="city" placeholder="City">
+            <input type="submit" id="check" value="Go">
         </div>
-
-        <div class="location-not-found">
-            <h1>Sorry, Location not found!!!</h1>
-            <img src="/assets/404.png" alt="404 Error">
-        </div>
-
-        <div class="weather-body">
-            <img src="/assets/cloud.png" alt="Weather Image" class="weather-img">
-
-            <div class="weather-box">
-                <p class="temperature">0 <sup>°C</sup></p>
-                <p class="description">light rain</p>
+        <img src="tempicons/clouds.svg" alt="" id="tempIcon">
+        <div class="flex">
+        <h2 id="weatherCountry">Cityname</h2>
+        <h2 id="temperature">0°<strong>C</strong></h2>
+        <h2 id="weatherDescription">Description</h2>
+        <ul>
+            <div class="features">
+            <li id="feelsLike">Feels Like 0°C</li>
+            <li id="humidity">Humidity 0</li>
+            <li id="longitude">Longitude 0</li>
+            <li id="latitude">Latitude 0</li>
             </div>
-
-            <div class="weather-details">
-                <div class="humidity">
-                    <i class="fa-sharp fa-solid fa-droplet"></i>
-                    <div class="text">
-                        <span id="humidity">45%</span>
-                        <p>Humidity</p>
-                    </div>
-                </div>
-
-                <div class="wind">
-                    <i class="fa-solid fa-wind"></i>
-                    <div class="text">
-                        <span id="wind-speed">12Km/H</span>
-                        <p>Wind Speed</p>
-                    </div>
-                </div>
-            </div>
+        </ul>
+        <div class="h1">Done by Mithesh</div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
